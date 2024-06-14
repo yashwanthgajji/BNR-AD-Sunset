@@ -1,5 +1,6 @@
 package com.yash.android.bnr.sunset
 
+import android.animation.AnimatorSet
 import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
 import android.os.Bundle
@@ -43,5 +44,14 @@ class MainActivity : AppCompatActivity() {
         sunsetSkyAnimator.setEvaluator(ArgbEvaluator())
         heightAnimator.start()
         sunsetSkyAnimator.start()
+        val nightSkyAnimator = ObjectAnimator
+            .ofInt(binding.sky, "backgroundColor", sunsetSkyColor, nightSkyColor)
+            .setDuration(1500)
+        nightSkyAnimator.setEvaluator(ArgbEvaluator())
+        val animatorSet = AnimatorSet()
+        animatorSet.play(heightAnimator)
+            .with(sunsetSkyAnimator)
+            .before(nightSkyAnimator)
+        animatorSet.start()
     }
 }
